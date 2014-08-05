@@ -1,0 +1,95 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.08.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Tetrahedral
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+N:[1-r-s-t,r,s,t];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M:integrate(integrate(integrate(transpose(N).N,t,0,1-r-s),s,0,1-r),r,0,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M2:M*0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 4 do(
+    M2[i,i] : sum(M[i,j],j,1,4)
+);
+M2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mass:sum(sum(M[i,j],i,1,4),j,1,4);
+trM:sum(M[i,i],i,1,4);
+M3:M*0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 4 do(
+    M3[i,i] : M[i,i]*mass/trM
+);
+M3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+8 node Square
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+Haux:1/2*[(1-r^2)*(1+s),(1-s^2)*(1-r),(1-r^2)*(1-s),(1-s^2)*(1+r)]$
+N8:[1/4*(1+r)*(1+s)-1/2*Haux[1]-1/2*Haux[4],
+   1/4*(1-r)*(1+s)-1/2*Haux[1]-1/2*Haux[2],
+   1/4*(1-r)*(1-s)-1/2*Haux[2]-1/2*Haux[3],
+   1/4*(1+r)*(1-s)-1/2*Haux[3]-1/2*Haux[4],
+   Haux[1],Haux[2],Haux[3],Haux[4]];
+kill(Haux)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M8:integrate(integrate(transpose(N8).N8,s,-1,1),r,-1,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M8_2:M8*0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 8 do(
+    M8_2[i,i] : sum(M8[i,j],j,1,8)
+);
+M8_2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mass8:sum(sum(M8[i,j],i,1,8),j,1,8);
+trM8:sum(M8[i,i],i,1,8);
+M8_3:M8*0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 8 do(
+    M8_3[i,i] : M8[i,i]*mass8/trM8
+);
+M8_3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(M8_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(M8_3);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

@@ -1,0 +1,154 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 11.08.0 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+fpprintprec:6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Constitutive model tensor in Voigt notation
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+C: E*(1-nu)/(1+nu)/(1-2*nu)*matrix(
+ [1,nu/(1-nu),0], 
+ [nu/(1-nu),1,0], 
+ [0,0,(1-2*nu)/2/(1-nu)]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Coordinates for the element
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+coords: matrix(
+ [x1,x2,x3,x4,x5,x6,x7,x8], 
+ [y1,y2,y3,y4,y5,y6,y7,y8]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation functions
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Haux:1/2*[(1-r^2)*(1+s),(1-s^2)*(1-r),(1-r^2)*(1-s),(1-s^2)*(1+r)]$
+N8:[1/4*(1+r)*(1+s)-1/2*Haux[1]-1/2*Haux[4],
+   1/4*(1-r)*(1+s)-1/2*Haux[1]-1/2*Haux[2],
+   1/4*(1-r)*(1-s)-1/2*Haux[2]-1/2*Haux[3],
+   1/4*(1+r)*(1-s)-1/2*Haux[3]-1/2*Haux[4],
+   Haux[1],Haux[2],Haux[3],Haux[4]];
+kill(Haux)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Jacobian
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+jac:matrix([0,0], [0,0])$
+jac[1,1]: ratsimp(sum(coords[1,i]*diff(N8[i],r),i,1,8))$
+jac[1,2]: ratsimp(sum(coords[2,i]*diff(N8[i],r),i,1,8))$
+jac[2,1]: ratsimp(sum(coords[1,i]*diff(N8[i],s),i,1,8))$
+jac[2,2]: ratsimp(sum(coords[2,i]*diff(N8[i],s),i,1,8))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+detjac:determinant(jac)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+jacinv:1/detjac*matrix([jac[2,2],-jac[1,2]], [-jac[2,1],jac[1,1]])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+H8: genmatrix(lambda([i,j], 0), 2, 16)$
+for i:1 thru 8 do(
+    H8[1,2*i-1]:N8[i],
+    H8[2,2*i]:N8[i]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Mass Matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+M8:transpose(H8).H8$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 16 do(
+  for j:1 thru 16 do(
+      M8[i][j]:rho*integrate(integrate(detjac*M8[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+MM8:ratsimp(M8)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Derivatives interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdr8:genmatrix(lambda([i,j], 0), 2, 8)$
+for i:1 thru 8 do(
+    dHdr8[1,i]:diff(N8[i],r),
+    dHdr8[2,i]:diff(N8[i],s)
+    );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdx8:jacinv.dHdr8$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B8: genmatrix(lambda([i,j], 0), 3, 16)$
+for i:1 thru 8 do(
+    B8[1,2*i-1]:dHdx8[1,i],
+    B8[2,2*i]:  dHdx8[2,i],
+    B8[3,2*i-1]:dHdx8[2,i],
+    B8[3,2*i]:  dHdx8[1,i]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(H8,N8,dHdx8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Stiffness matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+K8:transpose(B8).C.B8$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 16 do(
+  for j:1 thru 16 do(
+      K8[i][j]:integrate(integrate(detjac*K8[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Numerical values for Aluminium
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn8:subst([E=7.91e10,nu=0.325,L=2],K8);
+Mn8:subst([rho=2770,L=2],M8),float;
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

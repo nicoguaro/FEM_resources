@@ -1,0 +1,408 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Finite Element Method
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+This is a FEM implementation in a CAS and is intented to be useful for understand the implementation of the method.
+
+Author: Nicolas Guarin
+Last rev: March 3, 2013
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+ratprint:false$
+fpprintprec:6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Input phase
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+Mesh info
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+coords:[
+    [0.000, 0.035], [0.000, 0.030], [0.000, 0.025], [0.000, 0.020], [0.000, 0.015], 
+    [0.000, 0.010], [0.000, 0.005], [0.040, 0.035], [0.040, 0.030], [0.040, 0.025], 
+    [0.040, 0.020], [0.040, 0.015], [0.040, 0.010], [0.040, 0.005], [0.005, 0.000], 
+    [0.010, 0.000], [0.015, 0.000], [0.020, 0.000], [0.025, 0.000], [0.030, 0.000], 
+    [0.035, 0.000], [0.005, 0.040], [0.010, 0.040], [0.015, 0.040], [0.020, 0.040], 
+    [0.025, 0.040], [0.030, 0.040], [0.035, 0.040], [0.000, 0.000], [0.040, 0.000], 
+    [0.000, 0.040], [0.040, 0.040], [0.005, 0.030], [0.005, 0.020], [0.005, 0.010], 
+    [0.035, 0.030], [0.035, 0.020], [0.035, 0.010], [0.015, 0.010], [0.025, 0.010], 
+    [0.015, 0.030], [0.025, 0.030], [0.010, 0.010], [0.030, 0.010], [0.010, 0.030], 
+    [0.030, 0.030], [0.010, 0.035], [0.010, 0.025], [0.010, 0.015], [0.010, 0.005], 
+    [0.030, 0.035], [0.030, 0.025], [0.030, 0.015], [0.030, 0.005], [0.020, 0.005], 
+    [0.020, 0.035], [0.010, 0.020], [0.030, 0.020], [0.020, 0.010], [0.020, 0.030], 
+    [0.015, 0.020], [0.025, 0.020], [0.020, 0.015], [0.020, 0.025], [0.020, 0.020]
+]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elements:[
+    [29, 16, 43, 6, 15, 50, 35, 7], 
+    [16, 18, 19, 43, 17, 55, 39, 50], 
+    [18, 20, 44, 59, 19, 54, 40, 55], 
+    [20, 30, 13, 44, 21, 14, 38, 54], 
+    [6, 43, 57, 4, 35, 49, 34, 5], 
+    [43, 59, 65, 57, 39, 63, 61, 49], 
+    [59, 38, 58, 65, 40, 53, 62, 63], 
+    [44, 13, 11, 58, 38, 12, 37, 53], 
+    [4, 57, 45, 2, 34, 48, 33, 3], 
+    [57, 65, 60, 45, 61, 64, 41, 48], 
+    [65, 58, 46, 60, 62, 52, 42, 64], 
+    [58, 11, 9, 46, 37, 10, 36, 52], 
+    [2, 45, 23, 31, 33, 47, 22, 1], 
+    [45, 60, 25, 23, 41, 56, 24, 47], 
+    [60, 46, 27, 25, 42, 51, 26, 56], 
+    [46, 9, 32, 27, 36, 8, 28, 51]
+]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Element properties
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+elprop:[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Analysis type
+    1 - Plane Strain
+    2 - Plane Stress
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+type:1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Material properties
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+En:[9.21e10, 7.31e10];
+nun:[0.33, 0.325];
+rhon:[8270, 2770];
+t:0.025;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Common routines
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+Constitutive model tensor in Voigt notation
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+if type=1 then(
+    C: E*(1-nu)/(1+nu)/(1-2*nu)*
+    matrix([1,nu/(1-nu),0], 
+           [nu/(1-nu),1,0], 
+           [0,0,(1-2*nu)/2/(1-nu)]
+    )
+)else(
+    C: t*E/(1-nu^2)*
+    matrix([1,nu,0], 
+       [nu,1,0], 
+           [0,0,(1-nu)/2]
+    ),
+    rhon:rhon*t
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Spy the elements in a matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+spy(mat):= wxdraw2d(dimensions = [400,400],
+        colorbox=false, palette = gray,
+        image(signum(-abs(mat)),0,0,matrix_size(mat)[1],matrix_size(mat)[2])
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the Gauss points and weights
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gauss_pts(n):= block([pol,dpol,x1,dpoln,w1],
+    pol: ratsimp(legendre_p(n, x)),
+    dpol: ratsimp((n*legendre_p(n-1,x)-n*legendre_p(n,x)*x)/(1-x^2)),
+    x1:sort(map(rhs,allroots(pol))),
+    dpoln:subst([x=x1],dpol),
+    w1:makelist(2/((1-x1[k]^2)*dpoln[k]^2),k,1,n),
+    [x1,w1]
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Numerical integration
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gauss_int2d(f,x,y,n):=block([acu],
+    acu : 0,
+    gpts : gauss_pts(n),
+    for i:1 thru n do(
+        for j:1 thru n do(
+            fn : subst([x=gpts[1][i],y=gpts[1][j]],f),
+            acu : acu + fn*gpts[2][i]*gpts[2][j]
+        )
+    ),
+    acu
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Solve linear system using Gauss' Elimination
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gauss_solve(A,b):=block([Aaug,Up,acu],
+    n:matrix_size(A)[1],
+    Aaug: genmatrix(lambda([i,j], 0), n, n+1),
+    for i:1 thru matrix_size(A)[1] do(
+        for j:1 thru matrix_size(A)[2]+1 do(
+            if j<=matrix_size(A)[2] then
+                Aaug[i,j]:A[i,j]
+            else
+                Aaug[i,j]:b[i,1]
+        )
+    ),
+    Up:echelon(Aaug),
+    x:b*0,    
+    for i:n step -1 thru 1 do(
+        acu:0,
+        for j:i+1 thru n do(
+            acu: acu + Up[i,j]*x[j,1]
+        ),
+        x[i,1]: Up[i,n+1] - acu
+    ),
+    float(x)
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Elemental routines
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation functions
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Haux:1/2*[(1-r^2)*(1+s),(1-s^2)*(1-r),(1-r^2)*(1-s),(1-s^2)*(1+r)]$
+N:[1/4*(1+r)*(1+s)-1/2*Haux[1]-1/2*Haux[4],
+   1/4*(1-r)*(1+s)-1/2*Haux[1]-1/2*Haux[2],
+   1/4*(1-r)*(1-s)-1/2*Haux[2]-1/2*Haux[3],
+   1/4*(1+r)*(1-s)-1/2*Haux[3]-1/2*Haux[4],
+   Haux[1],Haux[2],Haux[3],Haux[4]]$
+kill(Haux)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+H: genmatrix(lambda([i,j], 0), 2, 16)$
+for i:1 thru 8 do(
+    H[1,2*i-1]:N[i],
+    H[2,2*i]:N[i]
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Local derivatives
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdr:genmatrix(lambda([i,j], 0), 2, 8)$
+for i:1 thru 8 do(
+    dHdr[1,i]:diff(N[i],r),
+    dHdr[2,i]:diff(N[i],s)
+    )$
+dHdr$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Jacobian functions
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+jaco(dHdr,coordEl):=ratsimp(dHdr.coordEl)$
+
+jacoinv(dHdr,coordEl):=block(
+            jac:jaco(dHdr,coordEl),
+            1/determinant(jac)*matrix([jac[2,2],-jac[1,2]],[-jac[2,1],jac[1,1]])
+)$
+
+detjac(dHdr,coordEl):=block([jac],
+    jac:jaco(dHdr,coordEl),
+     determinant(jac)
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Local mass matrix function
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+    for i:1 thru 16 do(
+        for j:1 thru 16 do(
+            integrand:det*M[i][j],
+            M[i][j]:gauss_int2d(integrand,r,s,5)
+        )
+    ),
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Local stiffness matrix function
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+local_stiff(dHdr,coordEl,Cn):=block([dHdx,B],
+    dHdx:ratsimp(jacoinv(dHdr,coordEl).dHdr),
+    B: genmatrix(lambda([i,j], 0), 3, 16),
+    for i:1 thru 8 do(
+        B[1,2*i-1]:dHdx[1,i],
+        B[2,2*i]:  dHdx[2,i],
+        B[3,2*i-1]:dHdx[2,i],
+        B[3,2*i]:  dHdx[1,i]
+    ),
+    K:transpose(B).Cn.B,
+    det:detjac(dHdr,coordEl),
+    for i:1 thru 16 do(
+        for j:1 thru 16 do(
+            integrand:det*K[i][j],
+            K[i][j]:gauss_int2d(integrand,r,s,5)
+        )
+    ),
+    K    
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Draw an element
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+draw_elem(nel,coords,elements):=block([el,pts,conec],
+    el:elements[nel],
+    pts:[ [coords[el[1]][1],coords[el[1]][2]], [coords[el[5]][1],coords[el[5]][2]],
+          [coords[el[2]][1],coords[el[2]][2]], [coords[el[6]][1],coords[el[6]][2]],
+          [coords[el[3]][1],coords[el[3]][2]], [coords[el[7]][1],coords[el[7]][2]],
+          [coords[el[4]][1],coords[el[4]][2]], [coords[el[8]][1],coords[el[8]][2]]
+    ],
+    conec:[ [coords[el[1]][1],coords[el[1]][2]], [coords[el[5]][1],coords[el[5]][2]],
+            [coords[el[2]][1],coords[el[2]][2]], [coords[el[6]][1],coords[el[6]][2]],
+            [coords[el[3]][1],coords[el[3]][2]], [coords[el[7]][1],coords[el[7]][2]],
+            [coords[el[4]][1],coords[el[4]][2]], [coords[el[8]][1],coords[el[8]][2]],
+            [coords[el[1]][1],coords[el[1]][2]]
+    ],
+    wxdraw2d(
+        color=black,
+        points_joined = true,
+        point_size    = 0,
+        points(conec),
+        color=blue,
+        points_joined = false,
+        point_size = 2,
+        point_type = 7,
+        points(pts)
+    )
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Assembly routines
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+KG: genmatrix(lambda([i,j], 0), 2*length(coords), 2*length(coords))$
+MG: genmatrix(lambda([i,j], 0), 2*length(coords), 2*length(coords))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+Assembling...
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for el:1 thru length(elements) do(
+    coordEl:matrix(
+            [coords[elements[el][1]][1],coords[elements[el][1]][2]],
+            [coords[elements[el][2]][1],coords[elements[el][2]][2]], 
+            [coords[elements[el][3]][1],coords[elements[el][3]][2]], 
+            [coords[elements[el][4]][1],coords[elements[el][4]][2]], 
+            [coords[elements[el][5]][1],coords[elements[el][5]][2]], 
+            [coords[elements[el][6]][1],coords[elements[el][6]][2]], 
+            [coords[elements[el][7]][1],coords[elements[el][7]][2]], 
+            [coords[elements[el][8]][1],coords[elements[el][8]][2]]    
+    ),
+    mat: elprop[el],    
+    Cn:subst([E=En[mat],nu=nun[mat]],C),
+    KL:local_stiff(dHdr,coordEl,Cn),
+    ML:local_mass(H,dHdr,coordEl,rhon[mat]),
+    for i:1 thru 8 do(
+        for j:1 thru 8 do(
+            ig:elements[el][i],
+            jg:elements[el][j],
+            KG[2*ig-1][2*jg-1]: KG[2*ig-1][2*jg-1] + KL[2*i-1][2*j-1],
+            KG[2*ig][2*jg-1]: KG[2*ig][2*jg-1] + KL[2*i][2*j-1],
+            KG[2*ig-1][2*jg]: KG[2*ig-1][2*jg] + KL[2*i-1][2*j],
+            KG[2*ig][2*jg]: KG[2*ig][2*jg] + KL[2*i][2*j],
+
+            MG[2*ig-1][2*jg-1]: MG[2*ig-1][2*jg-1] + ML[2*i-1][2*j-1],
+            MG[2*ig][2*jg-1]: MG[2*ig][2*jg-1] + ML[2*i][2*j-1],
+            MG[2*ig-1][2*jg]: MG[2*ig-1][2*jg] + ML[2*i-1][2*j],
+            MG[2*ig][2*jg]: MG[2*ig][2*jg] + ML[2*i][2*j]
+        )
+    )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Solution
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(KL);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(ML);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(coords);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(elements);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Still pending
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+spy(KG);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+spy(MG);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

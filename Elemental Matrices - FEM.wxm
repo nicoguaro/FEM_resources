@@ -1,0 +1,506 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Finite Element Elemental Mass and Stiffness Matrix
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+fpprintprec:6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Constitutive model tensor in Voigt notation
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+C: E*(1-nu)/(1+nu)/(1-2*nu)*matrix(
+ [1,nu/(1-nu),0], 
+ [nu/(1-nu),1,0], 
+ [0,0,(1-2*nu)/2/(1-nu)]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Jacobian
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+jac(Lx,Ly):=matrix([Lx/2,0], [0,Ly/2]);
+jacinv(Lx,Ly):=matrix([2/Lx,0], [0,2/Ly]);
+detjac(Lx,Ly):=Lx*Ly/4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Three Nodes Element
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+N3:[1-r-s, r, s];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+H3:genmatrix(lambda([i,j], 0), 2, 6)$
+for i:1 thru 3 do(
+    H3[1,2*i-1]:N3[i],
+    H3[2,2*i]:N3[i]
+);
+H3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M3:transpose(H3).H3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 6 do(
+  for j:1 thru 6 do(
+      M3[i][j]:rho*integrate(integrate(M3[i][j],s,0,1-r),r,0,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B3: genmatrix(lambda([i,j], 0), 3, 6)$
+for i:1 thru 3 do(
+    B3[1,2*i-1]:diff(N3[i],r),
+    B3[2,2*i]:diff(N3[i],s),
+    B3[3,2*i-1]:diff(N3[i],s),
+    B3[3,2*i]:diff(N3[i],r)
+);
+B3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(N3,H3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K3:transpose(B3).C.B3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 6 do(
+  for j:1 thru 6 do(
+      K3[i][j]:integrate(integrate(K3[i][j],s,0,1-r),r,0,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn3:subst([E=1,nu=1/3],K3);
+Mn3:subst([rho=1],M3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Six Nodes Element
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Naux:[4*r*(1-r-s),4*r*s,4*s*(1-r-s)];
+N6:[1-r-s-1/2*Naux[1]-1/2*Naux[3],
+    r-1/2*Naux[1]-1/2*Naux[2],
+    s-1/2*Naux[2]-1/2*Naux[3],
+    Naux[1],
+    Naux[2],
+    Naux[3]];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+H6:genmatrix(lambda([i,j], 0), 2, 12)$
+for i:1 thru 6 do(
+    H6[1,2*i-1]:N6[i],
+    H6[2,2*i]:N6[i]
+);
+H6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M6:transpose(H6).H6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 12 do(
+  for j:1 thru 12 do(
+      M6[i][j]:rho*integrate(integrate(M6[i][j],s,0,1-r),r,0,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B6: genmatrix(lambda([i,j], 0), 3, 12)$
+for i:1 thru 6 do(
+    B6[1,2*i-1]:diff(N6[i],r),
+    B6[2,2*i]:diff(N6[i],s),
+    B6[3,2*i-1]:diff(N6[i],s),
+    B6[3,2*i]:diff(N6[i],r)
+);
+B6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand(B6);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(Naux,N6,H6);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K6:transpose(B6).C.B6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 12 do(
+  for j:1 thru 12 do(
+      K6[i][j]:integrate(integrate(K6[i][j],s,0,1-r),r,0,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn6:subst([E=1,nu=1/3],K6);
+Mn6:subst([rho=1],M6);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Four Nodes Element
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation functions
+
+2----1
+|    |
+|    |
+3----4
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+N4:[1/4*(1+r)*(1+s),
+   1/4*(1-r)*(1+s),
+   1/4*(1-r)*(1-s),
+   1/4*(1+r)*(1-s)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+H4: genmatrix(lambda([i,j], 0), 2, 8)$
+for i:1 thru 4 do(
+    H4[1,2*i-1]:N4[i],
+    H4[2,2*i]:N4[i]
+);
+H4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Mass Matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+M4:transpose(H4).H4$
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+      M4[i][j]:rho*integrate(integrate(M4[i][j],s,-1,1),r,-1,1)
+  )
+);
+M4:M4*detjac(L,L);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fortran(M4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ML:M4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Derivatives interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdr4:genmatrix(lambda([i,j], 0), 2, 4)$
+for i:1 thru 4 do(
+    dHdr4[1,i]:diff(N4[i],r),
+    dHdr4[2,i]:diff(N4[i],s)
+    );
+dHdr4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdx4:jacinv(L,L).dHdr4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B4: genmatrix(lambda([i,j], 0), 3, 8)$
+for i:1 thru 4 do(
+    B4[1,2*i-1]:dHdx4[1,i],
+    B4[2,2*i]:  dHdx4[2,i],
+    B4[3,2*i-1]:dHdx4[2,i],
+    B4[3,2*i]:  dHdx4[1,i]
+);
+B4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(H4,N4,dHdx4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Stiffness matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+K4:transpose(B4).C.B4$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+      K4[i][j]:integrate(integrate(K4[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K4:ratsimp(K4*detjac(L,L));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+And we verify that the Stiffness matrix doesn't depend on the size of the element.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn4:subst([E=1,nu=1/3,Lx=2,n=2],K4);
+Mn4:subst([rho=1,L=2],M4);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+Eight Nodes Element
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+Interpolation functions
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Haux:1/2*[(1-r^2)*(1+s),(1-s^2)*(1-r),(1-r^2)*(1-s),(1-s^2)*(1+r)]$
+N8:[1/4*(1+r)*(1+s)-1/2*Haux[1]-1/2*Haux[4],
+   1/4*(1-r)*(1+s)-1/2*Haux[1]-1/2*Haux[2],
+   1/4*(1-r)*(1-s)-1/2*Haux[2]-1/2*Haux[3],
+   1/4*(1+r)*(1-s)-1/2*Haux[3]-1/2*Haux[4],
+   Haux[1],Haux[2],Haux[3],Haux[4]];
+kill(Haux)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+H8: genmatrix(lambda([i,j], 0), 2, 16)$
+for i:1 thru 8 do(
+    H8[1,2*i-1]:N8[i],
+    H8[2,2*i]:N8[i]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Mass Matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+M8:transpose(H8).H8$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 16 do(
+  for j:1 thru 16 do(
+      M8[i][j]:rho*integrate(integrate(M8[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M8*detjac(L,L);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Derivatives interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdr8:genmatrix(lambda([i,j], 0), 2, 8)$
+for i:1 thru 8 do(
+    dHdr8[1,i]:diff(N8[i],r),
+    dHdr8[2,i]:diff(N8[i],s)
+    );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdx8:jacinv(L,L).dHdr8$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B8: genmatrix(lambda([i,j], 0), 3, 16)$
+for i:1 thru 8 do(
+    B8[1,2*i-1]:dHdx8[1,i],
+    B8[2,2*i]:  dHdx8[2,i],
+    B8[3,2*i-1]:dHdx8[2,i],
+    B8[3,2*i]:  dHdx8[1,i]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(H8,N8,dHdx8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Stiffness matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+K8:transpose(B8).C.B8$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 16 do(
+  for j:1 thru 16 do(
+      K8[i][j]:integrate(integrate(K8[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K8:ratsimp(K8*detjac(L,L))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Numerical values for Aluminium
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn8:subst([E=7.91e10,nu=0.325,L=2],K8);
+Mn8:subst([rho=2770,L=2],M8),float;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Nine Nodes Element
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Haux:1/2*[(1-r^2)*(1+s),(1-s^2)*(1-r),(1-r^2)*(1-s),(1-s^2)*(1+r),(1-r^2)*(1-s^2)]$
+N9:[1/4*(1+r)*(1+s)-1/2*Haux[1]-1/2*Haux[4]-1/4*Haux[5],
+   1/4*(1-r)*(1+s)-1/2*Haux[1]-1/2*Haux[2]-1/4*Haux[5],
+   1/4*(1-r)*(1-s)-1/2*Haux[2]-1/2*Haux[3]-1/4*Haux[5],
+   1/4*(1+r)*(1-s)-1/2*Haux[3]-1/2*Haux[4]-1/4*Haux[5],
+   Haux[1]-1/2*Haux[5],Haux[2]-1/2*Haux[5],Haux[3]-1/2*Haux[5],Haux[4]-1/2*Haux[5],Haux[5]];
+kill(Haux)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+H9: genmatrix(lambda([i,j], 0), 2, 18)$
+for i:1 thru 9 do(
+    H9[1,2*i-1]:N9[i],
+    H9[2,2*i]:N9[i]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M9:transpose(H9).H9$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 18 do(
+  for j:1 thru 18 do(
+      M9[i][j]:rho*integrate(integrate(M9[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B9: genmatrix(lambda([i,j], 0), 3, 18)$
+for i:1 thru 9 do(
+    B9[1,2*i-1]:diff(N9[i],r),
+    B9[2,2*i]:diff(N9[i],s),
+    B9[3,2*i-1]:diff(N9[i],s),
+    B9[3,2*i]:diff(N9[i],r)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(H9,N9);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K9:transpose(B9).C.B9$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 18 do(
+  for j:1 thru 18 do(
+      K9[i][j]:integrate(integrate(K9[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn9:subst([E=1,nu=1/3],K9)$
+Mn9:subst([rho=1],M9)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
