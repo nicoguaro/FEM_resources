@@ -3,7 +3,11 @@ FEM resources
 
 This is a repo for Finite Element resources. I have used this resources for learning (myself) or prototyping some FEM features before implement them in a bigger FEM software.
 
-Right now it counts with some wxMaxima worksheets, where the CAS Maxima is used to compute analytically the elements.
+Right now it counts with some wxMaxima worksheets, where the CAS ([Computer Algebra System](http://en.wikipedia.org/wiki/Computer_algebra_system)) Maxima is used to compute analytically the elements.
+
+It is a good idea (and practice) using CAS for manipulate algebraic expressions, like the ones that appear commonly in the derivation of FEM (or other numerical methods). Two examples: Prof. Carlos Felipa suggest to use CAS for it (and uses Mathematica in its [Introductory FEM course](http://www.colorado.edu/engineering/cas/courses.d/IFEM.d/)), Prof. Alan Bower presents some Maple codes for FEM in its online book [Applied Mechanics of Solids](http://solidmechanics.org/FEA.php).
+
+TODO: Add Python code with matrices generated "automatically" from Maxima.
 
 
 Installation
