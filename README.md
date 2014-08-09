@@ -18,10 +18,17 @@ For wxMaxima worksheets (.wxm files) a wxMaxima (and Maxima) installation is nee
 List of files
 =============
 This will change in the future (probably?). But the current list of files is:
+
+Maxima
+------
 * `Analytical FEM.wxm`: a Finite Element Method code written in Maxima language. It illustrates some of the steps in a FEM code but the use of a CAS ease the process.
 * `Elemental Matrices.wxm`: computes stiffness and mass matrices for common types of (2D) elements.
 * `FEM_8node_element.wxm`: computes (analytically) stiffnesss and mass matrices for the most common element serendipity of 8 nodes.
 * `lumped_mass_FEM.wxm`: computes lumped mass matrices. A common procedure for (explicit) time marching algorithms.
+
+Python
+------
+* `poly_ritz.ipynb`: IPython Notebook with [Vibration modes of membranes with convex polygonal shape.](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/poly_ritz.ipynb)
 
 
 License
