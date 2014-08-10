@@ -13,8 +13,8 @@
    height="283.91309"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.1 "
-   sodipodi:docname="Documento nuevo 1">
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="transformation.svg">
   <defs
      id="defs4">
     <marker
@@ -73,6 +73,20 @@
          transform="matrix(0.4,0,0,0.4,4,0)"
          inkscape:connector-curvature="0" />
     </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Lend-0"
+       style="overflow:visible">
+      <path
+         id="path3861-6"
+         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         inkscape:connector-curvature="0" />
+    </marker>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -81,11 +95,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.72460937"
-     inkscape:cx="422.70972"
-     inkscape:cy="155.63421"
+     inkscape:zoom="2.3924187"
+     inkscape:cx="365.52966"
+     inkscape:cy="141.95654"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g5027"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -93,10 +107,10 @@
      fit-margin-bottom="10"
      fit-margin-top="10"
      fit-margin-right="10"
-     inkscape:window-width="1280"
-     inkscape:window-height="732"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -147,12 +161,12 @@
            sodipodi:role="line">(<tspan
    id="tspan3015"
    style="font-size:30px;font-style:italic">x</tspan><tspan
-   id="tspan4667"
-   style="font-size:65.00091553%;baseline-shift:sub">1</tspan>,<tspan
+   id="tspan3105"
+   style="font-size:65.00091553000000033%;font-style:italic;baseline-shift:sub;-inkscape-font-specification:'Times New Roman, Italic'">A</tspan>,<tspan
    id="tspan3017"
    style="font-size:30px;font-style:italic">y</tspan><tspan
-   id="tspan4671"
-   style="font-size:65.00091553%;baseline-shift:sub">1</tspan>)</tspan></text>
+   id="tspan3113"
+   style="font-size:65%;baseline-shift:sub;font-style:italic;-inkscape-font-specification:'Times New Roman, Italic'">A</tspan>)</tspan></text>
       <text
          sodipodi:linespacing="125%"
          id="text2991-1"
@@ -166,12 +180,12 @@
            sodipodi:role="line">(<tspan
    id="tspan3015-4"
    style="font-size:30px;font-style:italic">x</tspan><tspan
-   id="tspan4659"
-   style="font-size:65.00091553%;baseline-shift:sub">2</tspan>,<tspan
+   id="tspan3121"
+   style="font-size:65.00091553000000033%;font-style:italic;baseline-shift:sub;-inkscape-font-specification:'Times New Roman, Italic'">B</tspan>,<tspan
    id="tspan3017-9"
-   style="font-size:30px;font-style:italic">y</tspan><tspan
-   id="tspan4663"
-   style="font-size:65.00091553%;baseline-shift:sub">2</tspan>)</tspan></text>
+   style="font-size:30px;font-style:italic">y<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan3123">B</tspan></tspan>)</tspan></text>
       <text
          sodipodi:linespacing="125%"
          id="text2991-8"
@@ -184,13 +198,13 @@
            id="tspan2993-8"
            sodipodi:role="line">(<tspan
    id="tspan3015-2"
-   style="font-size:30px;font-style:italic">x</tspan><tspan
-   id="tspan4675"
-   style="font-size:65.00091553%;baseline-shift:sub">3</tspan>,<tspan
+   style="font-size:30px;font-style:italic">x<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan3139">C</tspan></tspan>,<tspan
    id="tspan3017-5"
-   style="font-size:30px;font-style:italic">y</tspan><tspan
-   id="tspan4679"
-   style="font-size:65.00091553%;baseline-shift:sub">3</tspan>)</tspan></text>
+   style="font-size:30px;font-style:italic">y<tspan
+   style="font-size:65.00091553%;baseline-shift:sub"
+   id="tspan3135">C</tspan></tspan>)</tspan></text>
       <path
          transform="matrix(0.09803922,0,0,0.09803922,29.624564,378.48963)"
          d="m -45.864738,330.23654 c 0,27.48618 -22.281947,49.76812 -49.76812,49.76812 -27.486172,0 -49.768122,-22.28194 -49.768122,-49.76812 0,-27.48617 22.28195,-49.76812 49.768122,-49.76812 27.486173,0 49.76812,22.28195 49.76812,49.76812 z"
@@ -323,7 +337,27 @@
            y="333.16406"
            x="310.31888"
            id="tspan5025"
-           sodipodi:role="line">J</tspan></text>
+           sodipodi:role="line">T<tspan
+   style="font-weight:normal;-inkscape-font-specification:'Times New Roman,';font-size:65%;baseline-shift:super"
+   id="tspan3097">-1</tspan></tspan></text>
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4831-5"
+         d="m 392.12335,382.49434 c -33.25109,28.38169 -101.78274,24.69185 -138.00539,0"
+         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text5023-8"
+         y="438.60403"
+         x="309.89517"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:justify;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Times New Roman;-inkscape-font-specification:Times New Roman"
+         xml:space="preserve"><tspan
+           style="font-weight:bold;-inkscape-font-specification:'Times New Roman, Bold'"
+           y="438.60403"
+           x="309.89517"
+           id="tspan5025-9"
+           sodipodi:role="line">T</tspan></text>
     </g>
   </g>
 </svg>
