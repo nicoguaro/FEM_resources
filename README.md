@@ -34,5 +34,5 @@ Python
 License
 =======
 * Text and multimedia is under Creative Commons Attribution 3.0 United States License (CC-by) http://creativecommons.org/licenses/by/3.0/us.
-* Code is under MIT Licenes http://opensource.org/licenses/MIT
+* Code is under MIT License http://opensource.org/licenses/MIT
 
