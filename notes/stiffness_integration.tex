@@ -1,0 +1,30 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Nicol\'as Guar\'in-Zapata}
+\title{\textbf{Analytic and Gauss integration of Stiffness Matrix}}
+
+\begin{document}
+\maketitle
+
+The analytic matrix is given by
+\begin{align*}
+K &= \int\limits_{-1}^{1}\int\limits_{-1}^{1} B^T(r,s) C(r,s) B(r,s)\, dr\, ds\\
+K &= \frac{E}{(1+\nu)(1-2\nu)}\begin{pmatrix}-\frac{4\,\nu-3}{6} & \frac{1}{8} & \frac{2\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{4\,\nu-3}{12} & -\frac{1}{8} & \frac{\nu}{6} & -\frac{4\,\nu-1}{8}\cr \frac{1}{8} & -\frac{4\,\nu-3}{6} & -\frac{4\,\nu-1}{8} & \frac{\nu}{6} & -\frac{1}{8} & \frac{4\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12}\cr \frac{2\,\nu-3}{12} & -\frac{4\,\nu-1}{8} & -\frac{4\,\nu-3}{6} & -\frac{1}{8} & \frac{\nu}{6} & \frac{4\,\nu-1}{8} & \frac{4\,\nu-3}{12} & \frac{1}{8}\cr \frac{4\,\nu-1}{8} & \frac{\nu}{6} & -\frac{1}{8} & -\frac{4\,\nu-3}{6} & -\frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12} & \frac{1}{8} & \frac{4\,\nu-3}{12}\cr \frac{4\,\nu-3}{12} & -\frac{1}{8} & \frac{\nu}{6} & -\frac{4\,\nu-1}{8} & -\frac{4\,\nu-3}{6} & \frac{1}{8} & \frac{2\,\nu-3}{12} & \frac{4\,\nu-1}{8}\cr -\frac{1}{8} & \frac{4\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12} & \frac{1}{8} & -\frac{4\,\nu-3}{6} & -\frac{4\,\nu-1}{8} & \frac{\nu}{6}\cr \frac{\nu}{6} & \frac{4\,\nu-1}{8} & \frac{4\,\nu-3}{12} & \frac{1}{8} & \frac{2\,\nu-3}{12} & -\frac{4\,\nu-1}{8} & -\frac{4\,\nu-3}{6} & -\frac{1}{8}\cr -\frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12} & \frac{1}{8} & \frac{4\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{\nu}{6} & -\frac{1}{8} & -\frac{4\,\nu-3}{6}\end{pmatrix}
+\end{align*}
+
+Numerically integrated matrices are in the form
+\[ K_N = \sum_{i}^{N}\sum_{j}^{N} w_{i}w_{j}B^T(r_i,s_j) C(r_i,s_j) B(r_i,s_j) \enspace , \]
+where $i$ and $j$ are the indexes to sweep along the $r$ and $s$ axis, $r_i$ and $s_j$ represent the Gauss coordinates, and $N$ the number of points in each direction. For $N=1$ and $N=2$ we have
+\begin{align*}
+K_1 &= \frac{E}{(1+\nu)(1-2\nu)}\begin{pmatrix}-\frac{4\,\nu-3}{16} & \frac{1}{16} & -\frac{1}{16} & \frac{4\,\nu-1}{16} & \frac{4\,\nu-3}{16} & -\frac{1}{16} & \frac{1}{16} & -\frac{4\,\nu-1}{16}\cr \frac{1}{16} & -\frac{4\,\nu-3}{16} & -\frac{4\,\nu-1}{16} & \frac{1}{16} & -\frac{1}{16} & \frac{4\,\nu-3}{16} & \frac{4\,\nu-1}{16} & -\frac{1}{16}\cr -\frac{1}{16} & -\frac{4\,\nu-1}{16} & -\frac{4\,\nu-3}{16} & -\frac{1}{16} & \frac{1}{16} & \frac{4\,\nu-1}{16} & \frac{4\,\nu-3}{16} & \frac{1}{16}\cr \frac{4\,\nu-1}{16} & \frac{1}{16} & -\frac{1}{16} & -\frac{4\,\nu-3}{16} & -\frac{4\,\nu-1}{16} & -\frac{1}{16} & \frac{1}{16} & \frac{4\,\nu-3}{16}\cr \frac{4\,\nu-3}{16} & -\frac{1}{16} & \frac{1}{16} & -\frac{4\,\nu-1}{16} & -\frac{4\,\nu-3}{16} & \frac{1}{16} & -\frac{1}{16} & \frac{4\,\nu-1}{16}\cr -\frac{1}{16} & \frac{4\,\nu-3}{16} & \frac{4\,\nu-1}{16} & -\frac{1}{16} & \frac{1}{16} & -\frac{4\,\nu-3}{16} & -\frac{4\,\nu-1}{16} & \frac{1}{16}\cr \frac{1}{16} & \frac{4\,\nu-1}{16} & \frac{4\,\nu-3}{16} & \frac{1}{16} & -\frac{1}{16} & -\frac{4\,\nu-1}{16} & -\frac{4\,\nu-3}{16} & -\frac{1}{16}\cr -\frac{4\,\nu-1}{16} & -\frac{1}{16} & \frac{1}{16} & \frac{4\,\nu-3}{16} & \frac{4\,\nu-1}{16} & \frac{1}{16} & -\frac{1}{16} & -\frac{4\,\nu-3}{16}\end{pmatrix}\\
+K_2 &= \frac{E}{(1+\nu)(1-2\nu)}\begin{pmatrix}-\frac{4\,\nu-3}{6} & \frac{1}{8} & \frac{2\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{4\,\nu-3}{12} & -\frac{1}{8} & \frac{\nu}{6} & -\frac{4\,\nu-1}{8}\cr \frac{1}{8} & -\frac{4\,\nu-3}{6} & -\frac{4\,\nu-1}{8} & \frac{\nu}{6} & -\frac{1}{8} & \frac{4\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12}\cr \frac{2\,\nu-3}{12} & -\frac{4\,\nu-1}{8} & -\frac{4\,\nu-3}{6} & -\frac{1}{8} & \frac{\nu}{6} & \frac{4\,\nu-1}{8} & \frac{4\,\nu-3}{12} & \frac{1}{8}\cr \frac{4\,\nu-1}{8} & \frac{\nu}{6} & -\frac{1}{8} & -\frac{4\,\nu-3}{6} & -\frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12} & \frac{1}{8} & \frac{4\,\nu-3}{12}\cr \frac{4\,\nu-3}{12} & -\frac{1}{8} & \frac{\nu}{6} & -\frac{4\,\nu-1}{8} & -\frac{4\,\nu-3}{6} & \frac{1}{8} & \frac{2\,\nu-3}{12} & \frac{4\,\nu-1}{8}\cr -\frac{1}{8} & \frac{4\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12} & \frac{1}{8} & -\frac{4\,\nu-3}{6} & -\frac{4\,\nu-1}{8} & \frac{\nu}{6}\cr \frac{\nu}{6} & \frac{4\,\nu-1}{8} & \frac{4\,\nu-3}{12} & \frac{1}{8} & \frac{2\,\nu-3}{12} & -\frac{4\,\nu-1}{8} & -\frac{4\,\nu-3}{6} & -\frac{1}{8}\cr -\frac{4\,\nu-1}{8} & \frac{2\,\nu-3}{12} & \frac{1}{8} & \frac{4\,\nu-3}{12} & \frac{4\,\nu-1}{8} & \frac{\nu}{6} & -\frac{1}{8} & -\frac{4\,\nu-3}{6}\end{pmatrix} \enspace ,
+\end{align*}
+we can see that for the nondistorted elements, 2 Gauss points are sufficient to get the exact integral.
+
+\end{document}

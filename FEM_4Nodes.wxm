@@ -1,0 +1,186 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 12.04.0 ] */
+
+/* [wxMaxima: title   start ]
+Analytic integration of 4-nodes Finite Element
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+Author: Nicolas Guarin-Zapata
+Date: January 28, 2015
+
+Reference: Bathe, Klaus-Jürgen. Finite element procedures. Klaus-Jurgen Bathe, 2006.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+fpprintprec:6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Constitutive model tensor in Voigt notation
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+C: E*(1-nu)/(1+nu)/(1-2*nu)*matrix(
+ [1,nu/(1-nu),0], 
+ [nu/(1-nu),1,0], 
+ [0,0,(1-2*nu)/2/(1-nu)]
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation functions
+2----1
+|    |
+|    |
+3----4
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+N4:[1/4*(1+r)*(1+s),
+   1/4*(1-r)*(1+s),
+   1/4*(1-r)*(1-s),
+   1/4*(1+r)*(1-s)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+H4: genmatrix(lambda([i,j], 0), 2, 8)$
+for i:1 thru 4 do(
+    H4[1,2*i-1]:N4[i],
+    H4[2,2*i]:N4[i]
+);
+H4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Mass Matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+M4:transpose(H4).H4$
+M:M4$
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+      M[i][j]:rho*integrate(integrate(M4[i][j],s,-1,1),r,-1,1)
+  )
+);
+M;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Derivatives interpolation matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dHdr4:genmatrix(lambda([i,j], 0), 2, 4)$
+for i:1 thru 4 do(
+    dHdr4[1,i]:diff(N4[i],r),
+    dHdr4[2,i]:diff(N4[i],s)
+    );
+dHdx4:dHdr4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+B4: genmatrix(lambda([i,j], 0), 3, 8)$
+for i:1 thru 4 do(
+    B4[1,2*i-1]:dHdx4[1,i],
+    B4[2,2*i]:  dHdx4[2,i],
+    B4[3,2*i-1]:dHdx4[2,i],
+    B4[3,2*i]:  dHdx4[1,i]
+);
+B4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Stiffness matrix
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+K4:transpose(B4).C.B4$
+K:0*K4$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+      K[i][j]:integrate(integrate(K4[i][j],s,-1,1),r,-1,1)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K:factor(K/E*(nu+1)*(1 - 2*nu));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+And we verify that the Stiffness matrix doesn't depend on the size of the element.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Kn:subst([E=8/3,nu=1/3],K);
+Mn:subst([rho=1],M);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+wts: [2, [1,1], [5/9, 8/9, 5/9]];
+pts: [0, [-sqrt(1/3), sqrt(1/3)], [-sqrt(3/5), 0, sqrt(3/5)]];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K1pts: 0*K4$
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+      K1pts[i][j]:wts[1]*subst([r=0,s=0],K4[i][j])
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K1pts:factor(K1pts/E*(1+nu)*(1-2*nu));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K2pts: 0*K4$
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+        K2pts[i][j]:sum(sum(wts[2][kx]*wts[2][ky]*subst([r=pts[2][kx],s=pts[2][ky]],K4[i][j]),kx,1,2),ky,1,2)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K2pts:factor(K2pts/E*(1+nu)*(1-2*nu)),ratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K3pts: 0*K4$
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+        K3pts[i][j]:sum(sum(wts[3][kx]*wts[3][ky]*subst([r=pts[3][kx],s=pts[3][ky]],K4[i][j]),kx,1,2),ky,1,2)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K3pts:factor(K3pts/E*(1+nu)*(1-2*nu));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(K1pts - K);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(K2pts - K);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
