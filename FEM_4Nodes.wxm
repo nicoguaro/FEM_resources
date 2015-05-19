@@ -131,8 +131,11 @@ Mn:subst([rho=1],M);
    [wxMaxima: section end   ] */
 
 /* [wxMaxima: input   start ] */
-wts: [2, [1,1], [5/9, 8/9, 5/9]];
-pts: [0, [-sqrt(1/3), sqrt(1/3)], [-sqrt(3/5), 0, sqrt(3/5)]];
+wts: [2, [1,1], [5/9, 8/9, 5/9], 
+[(18+sqrt(30))/36,(18+sqrt(30))/36, (18-sqrt(30))/36, (18-sqrt(30))/36]];
+pts: [0, [-sqrt(1/3), sqrt(1/3)], [-sqrt(3/5), 0, sqrt(3/5)],
+[-sqrt(3/7 - 2/7*sqrt(6/5)), sqrt(3/7 - 2/7*sqrt(6/5)),
+-sqrt(3/7 + 2/7*sqrt(6/5)), sqrt(3/7 + 2/7*sqrt(6/5))]];
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -146,6 +149,10 @@ for i:1 thru 8 do(
 
 /* [wxMaxima: input   start ] */
 K1pts:factor(K1pts/E*(1+nu)*(1-2*nu));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratsimp(K1pts - K);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -165,7 +172,7 @@ K2pts:factor(K2pts/E*(1+nu)*(1-2*nu)),ratsimp;
 K3pts: 0*K4$
 for i:1 thru 8 do(
   for j:1 thru 8 do(
-        K3pts[i][j]:sum(sum(wts[3][kx]*wts[3][ky]*subst([r=pts[3][kx],s=pts[3][ky]],K4[i][j]),kx,1,2),ky,1,2)
+        K3pts[i][j]:sum(sum(wts[3][kx]*wts[3][ky]*subst([r=pts[3][kx],s=pts[3][ky]],K4[i][j]),kx,1,3),ky,1,3)
   )
 );
 /* [wxMaxima: input   end   ] */
@@ -175,11 +182,20 @@ K3pts:factor(K3pts/E*(1+nu)*(1-2*nu));
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-ratsimp(K1pts - K);
+ratsimp(K3pts - K);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-ratsimp(K2pts - K);
+K4pts: 0*K4$
+for i:1 thru 8 do(
+  for j:1 thru 8 do(
+        K4pts[i][j]:sum(sum(wts[4][kx]*wts[4][ky]*subst([r=pts[4][kx],s=pts[4][ky]],K4[i][j]),kx,1,4),ky,1,4)
+  )
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+K4pts:factor(radcan(K4pts/E*(1+nu)*(1-2*nu)));
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
