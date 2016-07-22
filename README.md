@@ -29,7 +29,7 @@ Maxima
 Python
 ------
 * `poly_ritz.ipynb`: IPython Notebook with [Vibration modes of membranes with convex polygonal shape.](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/poly_ritz.ipynb)
-* `FEM_4Nodes.ipynb`: Notebook that computes analytically the stiffness and mass matrices for a 4 node element with undistorted shape.
+* `FEM_4Nodes.ipynb`: Notebook that [computes analytically the stiffness and mass matrices for a 4 node element](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/FEM_4Nodes.ipynb) with undistorted shape.
 
 
 License
