@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Nicolás Guarín Zapata" />
+  <meta name="author" content="nguarinz@eafit.edu.co" />
+  <meta name="author" content="@nicoguaro" />
+  <title>Isoparametric elements in 2D</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+   href="style.css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Isoparametric elements in 2D</h1>
+  <p class="author">
+Nicolás Guarín Zapata<br/>nguarinz@eafit.edu.co<br/><span class="citation">@nicoguaro</span>
+  </p>
+  <p class="date">Marzo 31, 2017</p>
+</div>
+<div id="isoparametric-interpolation" class="slide section level2">
+<h1>Isoparametric interpolation</h1>
+<p>In an isoparametric interpolation we use the same shape functions to interpolate our field variables and the displacements (geometry of our elements).</p>
+<table class="centObj">
+<tr>
+<td>
+<img src="img/distorted_4-node_element.svg"
+    width="600" height="375">
+</td>
+<td>
+<img src="img/shape_func-4-nodes-1.svg"
+    width="600" height="375">
+</td>
+</table>
+</div>
+<div id="shape-functions-for-a-4-nodes-element" class="slide section level2">
+<h1>Shape functions for a 4-nodes element</h1>
+<table class="centObj">
+<tr>
+<td>
+<figure>
+<img src="img/shape_func-4-nodes-1.svg"
+    width="400" height="250">
+<figcaption>
+Shape function associated with node 1.
+</figcaption>
+</figure>
+</td>
+<td>
+<figure>
+<img src="img/shape_func-4-nodes-2.svg"
+    width="400" height="250">
+<figcaption>
+Shape function associated with node 2.
+</figcaption>
+</figure>
+</td>
+</tr>
+<tr>
+<td>
+<figure>
+<img src="img/shape_func-4-nodes-3.svg"
+    width="400" height="250">
+<figcaption>
+Shape function associated with node 3.
+</figcaption>
+</figure>
+</td>
+<td>
+<figure>
+<img src="img/shape_func-4-nodes-4.svg"
+    width="400" height="250">
+<figcaption>
+Shape function associated with node 4.
+</figcaption>
+</figure>
+</td>
+</tr>
+</table>
+</div>
+<div id="displacement-interpolation" class="slide section level2">
+<h1>Displacement interpolation</h1>
+<p>Our displacements are written as</p>
+<p><span class="math display">\[\left\{ {\begin{array}{*{20}{c}}
+{u}\\
+{v}
+\end{array}} \right\} = \left[ {\begin{array}{*{20}{c}}
+{{N^1}(x, y)}&amp;0&amp;{{N^2}(x, y)}&amp;0&amp;{{N^3}(x, y)}&amp;0&amp;{{N^4}(x, y)}&amp;0\\
+0&amp;{{N^1}(x, y)}&amp;0&amp;{{N^2}(x, y)}&amp;0&amp;{{N^3}(x, y)}&amp;0&amp;{{N^4}(x, y)}
+\end{array}} \right]\left\{ {\begin{array}{*{20}{c}}
+{{u^1}}\\
+{{u^2}}\\
+{{u^3}}\\
+{{u^4}}\\
+{{u^5}}\\
+{{u^6}}\\
+{{u^7}}\\
+{{u^8}}
+\end{array}} \right\}\]</span></p>
+</div>
+<div id="derivatives-interpolation" class="slide section level2">
+<h1>Derivatives interpolation</h1>
+<p>Our displacements are written as</p>
+<p><span class="math display">\[\left\{ {\begin{array}{*{20}{c}}
+{\frac{{\partial u}}{{\partial x}}}\\
+{\frac{{\partial v}}{{\partial y}}}\\
+{\frac{{\partial v}}{{\partial x}} + \frac{{\partial u}}{{\partial y}}}
+\end{array}} \right\} = \left[ {\begin{array}{*{20}{c}}
+{\frac{{\partial {N^1}(x, y)}}{{\partial x}}}&amp;0&amp;{\frac{{\partial {N^2}(x, y)}}{{\partial x}}}&amp;0&amp;{\frac{{\partial {N^3}(x, y)}}{{\partial x}}}&amp;0&amp;{\frac{{\partial {N^4}(x, y)}}{{\partial x}}}&amp;0\\
+0&amp;{\frac{{\partial {N^1}(x, y)}}{{\partial y}}}&amp;0&amp;{\frac{{\partial {N^2}(x, y)}}{{\partial y}}}&amp;0&amp;{\frac{{\partial {N^3}(x, y)}}{{\partial x}}}&amp;0&amp;{\frac{{\partial {N^4}(x, y)}}{{\partial x}}}\\
+{\frac{{\partial {N^1}(x, y)}}{{\partial x}}}&amp;{\frac{{\partial {N^1}(x, y)}}{{\partial y}}}&amp;{\frac{{\partial {N^2}(x, y)}}{{\partial x}}}&amp;{\frac{{\partial {N^2}(x, y)}}{{\partial y}}}&amp;{\frac{{\partial {N^3}(x, y)}}{{\partial x}}}&amp;{\frac{{\partial {N^3}(x, y)}}{{\partial y}}}&amp;{\frac{{\partial {N^4}(x, y)}}{{\partial x}}}&amp;{\frac{{\partial {N^4}(x, y)}}{{\partial y}}}
+\end{array}} \right]\left\{ {\begin{array}{*{20}{c}}
+{{u^1}}\\
+{{u^2}}\\
+{{u^3}}\\
+{{u^4}}\\
+{{u^5}}\\
+{{u^6}}\\
+{{u^7}}\\
+{{u^8}}
+\end{array}} \right\}\]</span></p>
+</div>
+<div id="shape-functions" class="slide section level2">
+<h1>Shape functions</h1>
+\begin{align*}
+{N^1}(x) &amp; = \frac{1}{4}(1 - x)(1 - y) \\
+{N^2}(x) &amp; = \frac{1}{4}(1 + x)(1 - y) \\
+{N^3}(x) &amp; = \frac{1}{4}(1 + x)(1 + y) \\
+{N^4}(x) &amp; = \frac{1}{4}(1 - x)(1 + y)
+\end{align*}
+</div>
+<div id="shape-functions-1" class="slide section level2">
+<h1>Shape functions</h1>
+<p>Notice that in the computation of the stiffness matrix we actually require the spatial derivatives of the shape functions given by</p>
+\begin{align*}
+\frac{{\partial {N^1}(x)}}{{\partial x}} &amp; =  - \frac{1}{4}(1 - y)           &amp;  \frac{{\partial {N^1}(x)}}{{\partial y}} &amp; =  - \frac{1}{4}(1 - x)\\
+\frac{{\partial {N^2}(x)}}{{\partial x}} &amp; =  + \frac{1}{4}(1 - y)           &amp;  \frac{{\partial {N^2}(x)}}{{\partial y}} &amp; =  - \frac{1}{4}(1 + x)\\
+\frac{{\partial {N^3}(x)}}{{\partial x}} &amp; =  + \frac{1}{4}(1 + y)           &amp;  \frac{{\partial {N^3}(x)}}{{\partial y}} &amp; =  + \frac{1}{4}(1 + x)\\
+\frac{{\partial {N^4}(x)}}{{\partial x}} &amp; =  - \frac{1}{4}(1 + y)           &amp;  \frac{{\partial {N^4}(x)}}{{\partial y}} &amp; =  + \frac{1}{4}(1 - y)
+\end{align*}
+</div>
+<div id="elemental-stiffness-matrix" class="slide section level2">
+<h1>Elemental stiffness matrix</h1>
+<p>The elemental material stiffness matrix computed in the natural domain reads</p>
+\begin{equation}
+K_\text{local}=\int_{V_0} \hat{B}^T(\mathbf{r}) C \hat{B}(\mathbf{r}) dV_0(\mathbf{r})\equiv \int_{r=-1}^{r=+1}\int_{s=-1}^{s=+1} \hat{B}^T(r,s) C\hat{B}(r,s)J(r,s) \mathrm{d}r\mathrm{d}s
+\end{equation}
+</div>
+<div id="references" class="slide section level2">
+<h1>References</h1>
+<ul>
+<li>Bathe, K. J. (2006). Finite element procedures. Klaus-Jurgen Bathe.</li>
+<li>Juan Gomez &amp; Nicolás Guarín-Zapata (2017). Class Notes: Introduction to the Finite Element Methods.</li>
+</ul>
+</div>
+</body>
+</html>
