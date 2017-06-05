@@ -23,17 +23,18 @@ Maxima
 ------
 * `Analytical FEM.wxm`: a Finite Element Method code written in Maxima language. It illustrates some of the steps in a FEM code but the use of a CAS ease the process.
 * `Elemental Matrices.wxm`: computes stiffness and mass matrices for common types of (2D) elements.
-* `FEM_8node_element.wxm`: computes (analytically) stiffnesss and mass matrices for the most common element serendipity of 8 nodes.
-* `lumped_mass_FEM.wxm`: computes lumped mass matrices. A common procedure for (explicit) time marching algorithms.
+
 
 Python
 ------
 * `poly_ritz.ipynb`: IPython Notebook with [Vibration modes of membranes with convex polygonal shape.](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/poly_ritz.ipynb)
 * `FEM_4Nodes.ipynb`: Notebook that [computes analytically the stiffness and mass matrices for a 4 node element](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/FEM_4Nodes.ipynb) with undistorted shape.
-
+* `XFEM_enrichment.ipynb`: Notebook  for enrichment basis functions for [XFEM](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/XFEM_enrichment.ipynb)
+* [`Lumped mass FEM.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Lumped%20mass%20FEM.ipynb): computes lumped mass matrices. A common procedure for (explicit) time marching algorithms.
+* [`Hermite_interpolation.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Hermite_interpolation.ipynb): Piecewise Hermite interpolation.
 
 License
 =======
-* Text and multimedia is under Creative Commons Attribution 3.0 United States License (CC-by) http://creativecommons.org/licenses/by/3.0/us.
+* Text and multimedia is under Creative Commons Attribution 4.0 (CC-by 4.0) https://creativecommons.org/licenses/by/4.0/
 * Code is under MIT License http://opensource.org/licenses/MIT
 
