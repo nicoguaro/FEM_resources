@@ -24,14 +24,18 @@ Maxima
 * `Analytical FEM.wxm`: a Finite Element Method code written in Maxima language. It illustrates some of the steps in a FEM code but the use of a CAS ease the process.
 * `Elemental Matrices.wxm`: computes stiffness and mass matrices for common types of (2D) elements.
 
-
 Python
 ------
-* `poly_ritz.ipynb`: IPython Notebook with [Vibration modes of membranes with convex polygonal shape.](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/poly_ritz.ipynb)
-* `FEM_4Nodes.ipynb`: Notebook that [computes analytically the stiffness and mass matrices for a 4 node element](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/FEM_4Nodes.ipynb) with undistorted shape.
-* `XFEM_enrichment.ipynb`: Notebook  for enrichment basis functions for [XFEM](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/XFEM_enrichment.ipynb)
-* [`Lumped mass FEM.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Lumped%20mass%20FEM.ipynb): computes lumped mass matrices. A common procedure for (explicit) time marching algorithms.
+* [`Analytical FEM.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/Analytic%20FEM.ipynb): a Finite Element Method code written in SymPy. It illustrates some of the steps in a FEM code but the use of a CAS ease the process.
+* [Bilinear interpolatio plots](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/Bilinear%20interpolation%20plots.ipynb).
+* [`Circular_membrane.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/Circular_membrane.ipynb.ipynb): Weighted residual method illustration for a circular membrane.
+* [`FEM_4Nodes.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/FEM_4Nodes.ipynb): Notebook that computes analytically the stiffness and mass matrices for a 4 node element with undistorted shape.
+common procedure for (explicit) time marching algorithms.
 * [`Hermite_interpolation.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Hermite_interpolation.ipynb): Piecewise Hermite interpolation.
+* [`Lumped mass FEM.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Lumped%20mass%20FEM.ipynb): computes lumped mass matrices. A 
+* [`poly_ritz.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/poly_ritz.ipynb)): IPython Notebook with Vibration modes of membranes with convex polygonal shape.
+* [`XFEM_enrichment.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/XFEM_enrichment.ipynb)): Notebook  for enrichment basis functions for XFEM.
+
 
 License
 =======
