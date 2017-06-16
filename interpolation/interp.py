@@ -34,15 +34,14 @@ def conf_vander_mat(x):
     
     n = len(x)
     conf_van = np.zeros((2*n, 2*n))
-    for row in range(2*n):
-        for col in range(2*n):
-            if row < n:
+    for row in range(n):
+        if x[row] == 0:
+            conf_van[row, 0] = 1
+            conf_van[row + n, 1] = 1
+        else:
+            for col in range(2*n):
                 conf_van[row, col] = x[row]**col
-            else:
-                if x[row - n] == 0:
-                    conf_van[row, 1] = 1
-                else:
-                    conf_van[row, col] = col*x[row - n]**(col - 1)
+                conf_van[row + n, col] = col*x[row]**(col - 1)
     return conf_van
 
 
@@ -76,7 +75,7 @@ def compute_interp(x, f, df, x_eval):
 
 if __name__ == "__main__":
     equispaced = False
-    n = 9
+    n = 11
     if equispaced:
         x = np.linspace(-1, 1, n)
     else:
