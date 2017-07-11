@@ -6,16 +6,20 @@ Created on Wed Jun  7 15:14:59 2017
 """
 from __future__ import division, print_function
 import numpy as np
-from scipy.special import eval_hermite, roots_hermite, factorial, lambertw
+from scipy.special import eval_hermite, roots_hermite, factorial
 from scipy.linalg import eigh
+import matplotlib.pyplot as plt
 
+plt.rcParams["mathtext.fontset"] = "cm"
 
 def gauss_hermite(fun, n, args=None):
+    """Gauss hermite quadrature"""
     xi, wi = roots_hermite(n)
     return np.sum(fun(xi, *args) * wi)
 
 
 def hermite_mag(n):
+    """Normalization factor for Hermite polynomials"""
     return np.sqrt(np.pi**0.5 * 2**n * factorial(n))
 
 
@@ -61,6 +65,7 @@ def beta(m, n):
 
 
 def potential_integrand(x, m, n, potential):
+    """Integrand for the potential functional"""
     return hermite_norm(m, x) * hermite_norm(n, x) * potential(x)
 
 
@@ -102,25 +107,42 @@ def hamiltonian_mat(num, potential, ngpts):
     return Hmat
 
 
-nterms = 100
-ngpts = 100
-potential = lambda x: 0.5*np.sin(x)**2 * x**2
-Hmat = hamiltonian_mat(nterms, potential, ngpts)
-vals, vecs = eigh(Hmat)
-print(np.round(vals[:6], 6))
+def eigenstates(potential, nterms=20, ngpts=100):
+    """Compute eigenvalues and coefficients for the eigenvectors"""
+    Hmat = hamiltonian_mat(nterms, potential, ngpts)
+    vals, vecs = eigh(Hmat)
+    return vals, vecs
 
 
-#%% Plotting
-import matplotlib.pyplot as plt
-x = np.linspace(-10, 10, 2001)
-for k in range(4):
-    vec = 0
-    for j in range(nterms):
-        coeff = vecs[j, k]
-        vec += coeff * hermite_norm(j, x) * np.exp(-x**2/2)
-    plt.plot(x, vec, label=r"$n=%i$"%k)
+def plot_eigenstates(vals, vecs, potential, lims=(-5,5), npts=1001,
+                     ax=None):
+    """Plot eigenstates"""
+    if ax is None:
+        ax =  plt.gca()
+    xmin, xmax = lims
+    x = np.linspace(xmin, xmax, npts)
+    nterms = vecs.shape[0]
+    out = ax.plot(x, potential(x), color="black")
+    for k in range(10):
+        vec = 0
+        for j in range(nterms):
+            coeff = vecs[j, k]
+            vec += coeff * hermite_norm(j, x) * np.exp(-x**2/2)
+        vec = vec/np.max(vec)
+        amp = vals[k + 1] - vals[k]
+        ax.plot(x, 0.3*amp*vec + vals[k], label=r"$n=%i$"%k)
 
-plt.xlabel(r"$x$")
-plt.ylabel(r"$\psi(x)$")
-plt.legend()    
-plt.show()
+    min_val = min(np.min(potential(x)), 0)
+    plt.xlabel(r"$x$")
+    plt.ylabel(r"$\psi(x)$")
+    plt.ylim(min_val, vals[k] + amp)   
+    return out
+
+
+if __name__ == "__main__":
+    potential = lambda x: 0.5*x**2
+    vals, vecs = eigenstates(potential)
+    print(np.round(vals[:10], 6))
+    fig, ax = plt.subplots(1, 1)
+    plot_eigenstates(vals, vecs, potential)
+    plt.show()
