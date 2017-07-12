@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun  7 15:14:59 2017
+Solution of the Schrödinger equation using Ritz method
+No and Hermite functions as basis.
 
-@author: nguarinz
+@author: Nicolas Guarin-Zapata
 """
 from __future__ import division, print_function
 import numpy as np
@@ -24,6 +25,7 @@ def hermite_mag(n):
 
 
 def hermite_norm(n, x):
+    """Normalized Hermite polynomials"""
     return eval_hermite(n, x)/ hermite_mag(n)
 
 
