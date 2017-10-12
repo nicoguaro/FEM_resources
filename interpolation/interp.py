@@ -14,9 +14,9 @@ def vander_mat(x):
     """Vandermonde matrix for points in x"""
     n = len(x)
     van = np.zeros((n, n))
+    power = np.array(range(n))
     for row in range(n):
-        for col in range(n):
-            van[row, col] = x[row]**col
+        van[row, :] = x[row]**power
     return van
 
 
