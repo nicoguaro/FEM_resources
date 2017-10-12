@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Auxiliary functions for interpolation
@@ -23,55 +22,64 @@ def vander_mat(x):
 
 def conf_vander_mat(x):
     """Confluent Vandermonde matrix for points in x
-    
-        
+
+
     References
     ----------
     .. [1] Walter Gautschi (1962). On inverses of Vandermonde
         and confluent Vandermonde matrices. Numerische Mathematik, 4
         117-123.
     """
-    
+
     n = len(x)
     conf_van = np.zeros((2*n, 2*n))
+    power = np.array(range(2*n))
     for row in range(n):
         if x[row] == 0:
             conf_van[row, 0] = 1
             conf_van[row + n, 1] = 1
         else:
-            for col in range(2*n):
-                conf_van[row, col] = x[row]**col
-                conf_van[row + n, col] = col*x[row]**(col - 1)
+            conf_van[row, :] = x[row]**power
+            conf_van[row + n, :] = power*x[row]**(power - 1)
     return conf_van
 
 
-def hermite_coef(x):
-    """Compute the coefficients for Hermite interpolation
-    
+def inter_coef(x, inter_type="lagrange"):
+    """Compute the coefficients for interpolation
+
     The desired interpolation is for the points x
     """
-    n = len(x)
-    conf_vand = conf_vander_mat(x)
-    coef = np.linalg.solve(conf_vand, np.eye(2*n))
+    if inter_type == "lagrange":
+        vand_mat = vander_mat(x)
+    elif inter_type == "hermite":
+        vand_mat = conf_vander_mat(x)
+    coef = np.linalg.solve(vand_mat, np.eye(vand_mat.shape[0]))
     return coef
 
 
-def compute_interp(x, f, df, x_eval):
+def compute_interp(x, f, x_eval, df=None):
     """
     Compute the interpolation for points x_eval given by
-    points x
+    points x.
+
+    If derivatives are given (df) it computes the
+    Hermite interpolation for x_eval.
     """
-    coef = hermite_coef(x)
     n = len(x)
-    f_eval = np.zeros_like(x_eval) 
-    for row in range(2*n):
-        for col in range(2*n):
-            if col < n:
+    if df is None:
+        coef = inter_coef(x, inter_type="lagrange")
+    else:
+        coef = inter_coef(x, inter_type="hermite")
+    f_eval = np.zeros_like(x_eval)
+    nmat = coef.shape[0]
+    for row in range(nmat):
+        for col in range(nmat):
+            if col < n or nmat == n:
                 f_eval += coef[row, col]*x_eval**row*f[col]
             else:
                 f_eval += coef[row, col]*x_eval**row*df[col - n]
     return f_eval
-    
+
 
 if __name__ == "__main__":
     equispaced = False
@@ -83,7 +91,7 @@ if __name__ == "__main__":
     f = 1/(1 + 25*x**2)
     df = -50*x/(1 + 25*x**2)**2
     x_eval = np.linspace(-1, 1, 500)
-    interp_f = compute_interp(x, f, df, x_eval)
+    interp_f = compute_interp(x, f, x_eval, df=df)
     plt.plot(x_eval, 1/(1 + 25*x_eval**2))
     plt.plot(x_eval, interp_f)
     plt.plot(x, f, '.')
