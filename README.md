@@ -1,6 +1,8 @@
 FEM resources
 =============
 
+[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/nicoguaro/FEM_resources)
+
 This is a repo for Finite Element resources. I have used this resources for learning (myself) or prototyping some FEM features before implement them in a bigger FEM software.
 
 Right now it counts with some wxMaxima worksheets, where the CAS ([Computer Algebra System](http://en.wikipedia.org/wiki/Computer_algebra_system)) Maxima is used to compute analytically the elements.
