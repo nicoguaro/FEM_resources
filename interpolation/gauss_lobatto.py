@@ -12,10 +12,12 @@ Reference on LGL nodes and weights:
 Originally implemented in MATLAB by Greg von Winckel
 http://www.mathworks.com/matlabcentral/fileexchange/4775-legende-gauss-lobatto-nodes-and-weights
 
+
 @author: Nicolas Guarin-Zapata
 """
 from __future__ import division, print_function
-from numpy import pi, cos, zeros, amax, abs, square, array, linspace
+from numpy import pi, sin, zeros, amax, abs, square, array, linspace
+from numpy.linalg import norm
 import numpy as np
 
 
@@ -26,8 +28,15 @@ def gauss_lobatto(N, tol=1e-15):
     Compute P_(N) using the recursion relation
     Compute its first and second derivatives and
     update x using the Newton-Raphson method.
+    
+    Chebyshev nodes are computed using the symmetric
+    formula that involves sine as presented in:
+
+      Nick Trefethen. Aproximation Theory and 
+      Aproximation Practice, Chapter 2, exercise 2.
+    
     """
-    x = -cos(linspace(0, pi, N))
+    x = sin(linspace(-pi/2, pi/2, N))
     P = zeros((N, N))  # Vandermonde Matrix
     x_old = 2
     while amax(abs(x - x_old)) > tol:
@@ -43,7 +52,8 @@ def gauss_lobatto(N, tol=1e-15):
 
     return array(x), array(w)
 
+
 if __name__ == "__main__":
     x, _ = gauss_lobatto(5)
     x_exact = array([-1, -np.sqrt(3/7), 0, np.sqrt(3/7), 1])
-    print(np.linalg.norm(x - x_exact)/np.linalg.norm(x_exact))
+    print("Relative error: {:g}".format(norm(x - x_exact)/norm(x_exact)))

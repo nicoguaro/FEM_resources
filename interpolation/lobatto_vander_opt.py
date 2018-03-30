@@ -10,7 +10,8 @@ the Vandermonde matrix for the interval [-1, 1].
 @author: Nicolas Guarin-Zapata
 """
 from __future__ import division, print_function
-import numpy as np
+from numpy import array, linspace, abs, pi, sin, sqrt
+from numpy.linalg import norm
 from scipy.optimize import minimize
 
 
@@ -30,12 +31,11 @@ def gauss_lobatto(num, tol=1e-15, x0="chebyshev"):
     determinant
     """
     if x0 == "equispaced":
-        x = np.linspace(-1, 1, num)
+        x = linspace(-1, 1, num)
     else:
-        k = np.linspace(0, num + 1, num)
-        x = np.cos(k[::-1]/(num +1)*np.pi)
-    bounds = [(-1, 1) for k in range(num)]
-    opt_fun = lambda x: -np.abs(vander_det(x))
+        x = sin(linspace(-pi/2, pi/2, num))
+    bounds = [(-1, 1) for cont in range(num)]
+    opt_fun = lambda x: -abs(vander_det(x))
     res = minimize(opt_fun, x, method='SLSQP', bounds=bounds,
                tol=tol)
     return res.x
@@ -43,5 +43,5 @@ def gauss_lobatto(num, tol=1e-15, x0="chebyshev"):
 
 if __name__ == "__main__":
     x = gauss_lobatto(5)
-    x_exact = np.array([-1, -np.sqrt(3/7), 0, np.sqrt(3/7), 1])
-    print(np.linalg.norm(x - x_exact)/np.linalg.norm(x_exact))
+    x_exact = array([-1, -sqrt(3/7), 0, sqrt(3/7), 1])
+    print("Relative error: {:g}".format(norm(x - x_exact)/norm(x_exact)))
