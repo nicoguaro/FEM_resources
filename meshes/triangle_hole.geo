@@ -1,18 +1,26 @@
+/*
+Geometry for a triangle with a hole intended to meshed with quadrilaterals
+*/
 
-Point(1) = {-1, 0, 0, 1.0};
-Point(2) = {1, 0, 0, 1.0};
-Point(3) = {0, 1.4142135623731, 0, 1.0};
+side = 2;
+radius = 0.3;
+
+// Points
+Point(1) = {-side/2, 0, 0, 1.0};
+Point(2) = {side/2, 0, 0, 1.0};
+Point(3) = {0, side/2*Sqrt(2), 0, 1.0};
 Point(4) = {0, 0, 0, 1.0};
-Point(5) = {0.5, 0.70710678118655, 0, 1.0};
-Point(6) = {-0.5, 0.70710678118655, 0, 1.0};
-Point(7) = {0, 0.471404520791033, 0, 1.0};
-Point(8) = {0, 0.171404520791033, 0, 1.0};
-Point(9) = {0.25980762,  0.62140452, 0, 1.0};
-Point(10) = {-0.25980762,  0.62140452, 0, 1.0};
-Point(11) = {0.25980762,  0.32140452, 0, 1.0};
-Point(12) = {-0.25980762,  0.32140452, 0, 1.0};
-Point(13) = {0, 0.771404520791033, 0, 1.0};
+Point(5) = {side/4, side/2*Sqrt(2)/2, 0, 1.0};
+Point(6) = {-side/4, side/2*Sqrt(2)/2, 0, 1.0};
+Point(7) = {0, side/2*Sqrt(2)/3, 0, 1.0};
+Point(8) = {0, side/2*Sqrt(2)/3 - radius, 0, 1.0};
+Point(9) = {radius*Cos(Pi/6), side/2*Sqrt(2)/3 + radius*Sin(Pi/6), 0, 1.0};
+Point(10) = {-radius*Cos(Pi/6), side/2*Sqrt(2)/3 + radius*Sin(Pi/6), 0, 1.0};
+Point(11) = {radius*Cos(Pi/6), side/2*Sqrt(2)/3 - radius*Sin(Pi/6), 0, 1.0};
+Point(12) = {-radius*Cos(Pi/6), side/2*Sqrt(2)/3 - radius*Sin(Pi/6), 0, 1.0};
+Point(13) = {0, side/2*Sqrt(2)/3 + radius, 0, 1.0};
 
+// Lines
 Line(1) = {1, 4};
 Line(2) = {4, 2};
 Line(3) = {2, 5};
@@ -32,26 +40,29 @@ Circle(16) = {13, 7, 10};
 Circle(17) = {10, 7, 12};
 Circle(18) = {12, 7, 8};
 
+// Surfaces
 Line Loop(19) = {10, 1, 7, -18};
 Plane Surface(20) = {19};
-Line Loop(21) = {13, 11, -2, 7};
+Line Loop(21) = {-7, 2, -11, -13};
 Plane Surface(22) = {21};
 Line Loop(23) = {11, 3, 8, -14};
 Plane Surface(24) = {23};
-Line Loop(25) = {8, 15, 12, -4};
+Line Loop(25) = {4, -12, -15, -8};
 Plane Surface(26) = {25};
 Line Loop(27) = {5, 9, -16, 12};
 Plane Surface(28) = {27};
-Line Loop(29) = {9, 17, 10, -6};
+Line Loop(29) = {6, -10, -17, -9};
 Plane Surface(30) = {29};
-Transfinite Line {10, 7, 11, 8, 12, 9} = 5 Using Progression 1;
-Transfinite Line {6, 17} = 10 Using Progression 1;
-Transfinite Line {5, 16} = 10 Using Progression 1;
-Transfinite Line {4, 15} = 10 Using Progression 1;
-Transfinite Line {3, 14} = 10 Using Progression 1;
-Transfinite Line {13, 2} = 10 Using Progression 1;
-Transfinite Line {18, 1} = 10 Using Progression 1;
 
+// Mesh parameters
+ndiv = 10;
+Transfinite Line {10, 7, 11, 8, 12, 9} = ndiv Using Progression 1;
+Transfinite Line {6, 17} = ndiv Using Progression 1;
+Transfinite Line {5, 16} = ndiv Using Progression 1;
+Transfinite Line {4, 15} = ndiv Using Progression 1;
+Transfinite Line {3, 14} = ndiv Using Progression 1;
+Transfinite Line {13, 2} = ndiv Using Progression 1;
+Transfinite Line {18, 1} = ndiv Using Progression 1;
 Transfinite Surface {30};
 Transfinite Surface {20};
 Transfinite Surface {22};

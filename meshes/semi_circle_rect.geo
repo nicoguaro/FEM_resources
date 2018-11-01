@@ -1,5 +1,5 @@
 /*
-
+Geometry for a cemicircle on top of a rectangle.
 */
 rad = 1.0;
 height = 2*rad;
