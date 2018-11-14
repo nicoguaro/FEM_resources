@@ -5,7 +5,7 @@ Python script version of the IPython Notebook
 
 Author: Nicolas Guarin Zapata
 """
-from __future__ import division
+from __future__ import division, print_function
 from sympy import *
 from sympy import symbols
 from sympy.plotting import plot3d
@@ -91,6 +91,6 @@ anal_valsN = np.sort(np.array(Matrix(anal_vals).T.evalf()).astype(dtype=float))
 
 error = (anal_valsN - vals)/anal_valsN
 
-print "Elapsed time: ", time() - t0
+print("Elapsed time: {}".format(time() - t0))
 
 
