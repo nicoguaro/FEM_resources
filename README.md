@@ -30,12 +30,12 @@ Python
 ------
 * [`Analytical FEM.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/Analytic%20FEM.ipynb): a Finite Element Method code written in SymPy. It illustrates some of the steps in a FEM code but the use of a CAS ease the process.
 * [`Bilinear interpolation plots`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/Bilinear%20interpolation%20plots.ipynb): Example of interpolation using bilinear elements.
-* [`Circular_membrane.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/Circular_membrane.ipynb.ipynb): Weighted residual method illustration for a circular membrane.
+* [`Circular_membrane.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/variational/blob/master/Circular_membrane.ipynb.ipynb): Weighted residual method illustration for a circular membrane.
 * [`FEM_4Nodes.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/FEM_4Nodes.ipynb): Notebook that computes analytically the stiffness and mass matrices for a 4 node element with undistorted shape.
 common procedure for (explicit) time marching algorithms.
 * [`Hermite_interpolation.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Hermite_interpolation.ipynb): Piecewise Hermite interpolation.
-* [`Lumped mass FEM.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Lumped%20mass%20FEM.ipynb): computes lumped mass matrices. A 
-* [`poly_ritz.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/blob/master/poly_ritz.ipynb): IPython Notebook with Vibration modes of membranes with convex polygonal shape.
+* [`Lumped mass FEM.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/Lumped%20mass%20FEM.ipynb): computes lumped mass matrices. A
+* [`poly_ritz.ipynb`](http://nbviewer.ipython.org/github/nicoguaro/FEM_resources/variational/blob/master/poly_ritz.ipynb): IPython Notebook with Vibration modes of membranes with convex polygonal shape.
 * [`XFEM_enrichment.ipynb`](http://nbviewer.jupyter.org/github/nicoguaro/FEM_resources/blob/master/XFEM_enrichment.ipynb): Notebook  for enrichment basis functions for XFEM.
 
 
@@ -43,4 +43,3 @@ License
 =======
 * Text and multimedia is under Creative Commons Attribution 4.0 (CC-by 4.0) https://creativecommons.org/licenses/by/4.0/
 * Code is under MIT License http://opensource.org/licenses/MIT
-
