@@ -450,27 +450,6 @@ Nine Nodes Element
 
 
 /* [wxMaxima: input   start ] */
-Haux:1/2*[
-    (1-r^2)*(1+s),
-    (1-s^2)*(1-r),
-    (1-r^2)*(1-s),
-    (1-s^2)*(1+r),
-    2*(1-r^2)*(1-s^2)]$
-N9:[
-   1/4*(1+r)*(1+s) - 1/2*Haux[1] - 1/2*Haux[4] - 1/4*Haux[5],
-   1/4*(1-r)*(1+s) - 1/2*Haux[1] - 1/2*Haux[2] - 1/4*Haux[5],
-   1/4*(1-r)*(1-s) - 1/2*Haux[2] - 1/2*Haux[3] - 1/4*Haux[5],
-   1/4*(1+r)*(1-s) - 1/2*Haux[3] - 1/2*Haux[4] - 1/4*Haux[5],
-   Haux[1] - 1/2*Haux[5],
-   Haux[2] - 1/2*Haux[5],
-   Haux[3] - 1/2*Haux[5],
-   Haux[4] - 1/2*Haux[5],
-   Haux[5]];
-kill(Haux)$
-/* [wxMaxima: input   end   ] */
-
-
-/* [wxMaxima: input   start ] */
 N9:  [
     r*s*(r - 1)*(s - 1)/4,
     r*s*(r + 1)*(s - 1)/4,
