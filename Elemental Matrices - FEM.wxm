@@ -1,22 +1,25 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 12.04.0 ] */
-
+/* [ Created with wxMaxima version 18.02.0 ] */
 /* [wxMaxima: title   start ]
 Finite Element Elemental Mass and Stiffness Matrix
    [wxMaxima: title   end   ] */
 
+
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: input   start ] */
 kill(all);
 fpprintprec:6;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: comment start ]
 Constitutive model tensor in Voigt notation
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: input   start ] */
 C: E*(1-nu)/(1+nu)/(1-2*nu)*matrix(
@@ -26,9 +29,11 @@ C: E*(1-nu)/(1+nu)/(1-2*nu)*matrix(
 );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: comment start ]
 Jacobian
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: input   start ] */
 jac(Lx,Ly):=matrix([Lx/2,0], [0,Ly/2]);
@@ -36,12 +41,11 @@ jacinv(Lx,Ly):=matrix([2/Lx,0], [0,2/Ly]);
 detjac(Lx,Ly):=Lx*Ly/4;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: section start ]
 Three Nodes Element
    [wxMaxima: section end   ] */
-
 /* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
@@ -111,14 +115,14 @@ Kn3:subst([E=1,nu=1/3],K3);
 Mn3:subst([rho=1],M3);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: fold    end   ] */
+
 
 /* [wxMaxima: section start ]
 Six Nodes Element
    [wxMaxima: section end   ] */
-
 /* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
@@ -198,12 +202,14 @@ Mn6:subst([rho=1],M6);
 
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: fold    end   ] */
+
 
 /* [wxMaxima: section start ]
 Four Nodes Element
    [wxMaxima: section end   ] */
-
+/* [wxMaxima: fold    start ] */
 /* [wxMaxima: comment start ]
 Interpolation functions
 
@@ -316,12 +322,14 @@ Kn4:subst([E=1,nu=1/3,Lx=2,n=2],K4);
 Mn4:subst([rho=1,L=2],M4);
 /* [wxMaxima: input   end   ] */
 
+
+/* [wxMaxima: fold    end   ] */
+
+
 /* [wxMaxima: section start ]
 Eight Nodes Element
    [wxMaxima: section end   ] */
-
 /* [wxMaxima: fold    start ] */
-
 /* [wxMaxima: comment start ]
 Interpolation functions
    [wxMaxima: comment end   ] */
@@ -427,27 +435,54 @@ Kn8:subst([E=7.91e10,nu=0.325,L=2],K8);
 Mn8:subst([rho=2770,L=2],M8),float;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: fold    end   ] */
+
 
 /* [wxMaxima: section start ]
 Nine Nodes Element
    [wxMaxima: section end   ] */
 
-/* [wxMaxima: fold    start ] */
 
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
-Haux:1/2*[(1-r^2)*(1+s),(1-s^2)*(1-r),(1-r^2)*(1-s),(1-s^2)*(1+r),(1-r^2)*(1-s^2)]$
-N9:[1/4*(1+r)*(1+s)-1/2*Haux[1]-1/2*Haux[4]-1/4*Haux[5],
-   1/4*(1-r)*(1+s)-1/2*Haux[1]-1/2*Haux[2]-1/4*Haux[5],
-   1/4*(1-r)*(1-s)-1/2*Haux[2]-1/2*Haux[3]-1/4*Haux[5],
-   1/4*(1+r)*(1-s)-1/2*Haux[3]-1/2*Haux[4]-1/4*Haux[5],
-   Haux[1]-1/2*Haux[5],Haux[2]-1/2*Haux[5],Haux[3]-1/2*Haux[5],Haux[4]-1/2*Haux[5],Haux[5]];
+Haux:1/2*[
+    (1-r^2)*(1+s),
+    (1-s^2)*(1-r),
+    (1-r^2)*(1-s),
+    (1-s^2)*(1+r),
+    2*(1-r^2)*(1-s^2)]$
+N9:[
+   1/4*(1+r)*(1+s) - 1/2*Haux[1] - 1/2*Haux[4] - 1/4*Haux[5],
+   1/4*(1-r)*(1+s) - 1/2*Haux[1] - 1/2*Haux[2] - 1/4*Haux[5],
+   1/4*(1-r)*(1-s) - 1/2*Haux[2] - 1/2*Haux[3] - 1/4*Haux[5],
+   1/4*(1+r)*(1-s) - 1/2*Haux[3] - 1/2*Haux[4] - 1/4*Haux[5],
+   Haux[1] - 1/2*Haux[5],
+   Haux[2] - 1/2*Haux[5],
+   Haux[3] - 1/2*Haux[5],
+   Haux[4] - 1/2*Haux[5],
+   Haux[5]];
 kill(Haux)$
 /* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+N9:  [
+    r*s*(r - 1)*(s - 1)/4,
+    r*s*(r + 1)*(s - 1)/4,
+    r*s*(r + 1)*(s + 1)/4,
+    r*s*(r - 1)*(s + 1)/4,
+    s*(s - 1)*(1 - r**2)/2,
+    r*(r + 1)*(1 - s**2)/2,
+    s*(s + 1)*(1 - r**2)/2,
+    r*(r - 1)*(1 - s**2)/2,
+    (1 - r**2)*(1 - s**2)];
+/* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 H9: genmatrix(lambda([i,j], 0), 2, 18)$
@@ -457,9 +492,11 @@ for i:1 thru 9 do(
 );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 M9:transpose(H9).H9$
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 for i:1 thru 18 do(
@@ -468,6 +505,7 @@ for i:1 thru 18 do(
   )
 );
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 B9: genmatrix(lambda([i,j], 0), 3, 18)$
@@ -479,13 +517,16 @@ for i:1 thru 9 do(
 );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 kill(H9,N9);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 K9:transpose(B9).C.B9$
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 for i:1 thru 18 do(
@@ -495,12 +536,13 @@ for i:1 thru 18 do(
 );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Kn9:subst([E=1,nu=1/3],K9)$
 Mn9:subst([rho=1],M9)$
 /* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: fold    end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 18.02.0"$
