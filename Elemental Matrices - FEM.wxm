@@ -522,6 +522,11 @@ Mn9:subst([rho=1],M9)$
 /* [wxMaxima: input   end   ] */
 
 
+/* [wxMaxima: input   start ] */
+Mn9;
+/* [wxMaxima: input   end   ] */
+
+
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
 "Created with wxMaxima 18.02.0"$
