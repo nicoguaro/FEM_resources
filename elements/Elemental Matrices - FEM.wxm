@@ -122,10 +122,12 @@ Mn3:subst([rho=1],M3);
 /* [wxMaxima: section start ]
 Six Nodes Element
    [wxMaxima: section end   ] */
-/* [wxMaxima: fold    start ] */
+
+
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
+
 
 /* [wxMaxima: input   start ] */
 Naux:[4*r*(1-r-s),4*r*s,4*s*(1-r-s)];
@@ -137,6 +139,7 @@ N6:[1-r-s-1/2*Naux[1]-1/2*Naux[3],
     Naux[3]];
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 H6:genmatrix(lambda([i,j], 0), 2, 12)$
 for i:1 thru 6 do(
@@ -146,9 +149,11 @@ for i:1 thru 6 do(
 H6;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 M6:transpose(H6).H6;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 for i:1 thru 12 do(
@@ -158,9 +163,11 @@ for i:1 thru 12 do(
 );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 M6;
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 B6: genmatrix(lambda([i,j], 0), 3, 12)$
@@ -173,17 +180,21 @@ for i:1 thru 6 do(
 B6;
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 expand(B6);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 kill(Naux,N6,H6);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 K6:transpose(B6).C.B6$
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 for i:1 thru 12 do(
@@ -193,17 +204,16 @@ for i:1 thru 12 do(
 );
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
 Kn6:subst([E=1,nu=1/3],K6);
 Mn6:subst([rho=1],M6);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
-
-
-/* [wxMaxima: fold    end   ] */
 
 
 /* [wxMaxima: section start ]
@@ -442,12 +452,10 @@ Mn8:subst([rho=2770,L=2],M8),float;
 /* [wxMaxima: section start ]
 Nine Nodes Element
    [wxMaxima: section end   ] */
-
-
+/* [wxMaxima: fold    start ] */
 /* [wxMaxima: comment start ]
 
    [wxMaxima: comment end   ] */
-
 
 /* [wxMaxima: input   start ] */
 N9:  [
@@ -462,7 +470,6 @@ N9:  [
     (1 - r**2)*(1 - s**2)];
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
 H9: genmatrix(lambda([i,j], 0), 2, 18)$
 for i:1 thru 9 do(
@@ -471,11 +478,9 @@ for i:1 thru 9 do(
 );
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
 M9:transpose(H9).H9$
 /* [wxMaxima: input   end   ] */
-
 
 /* [wxMaxima: input   start ] */
 for i:1 thru 18 do(
@@ -484,7 +489,6 @@ for i:1 thru 18 do(
   )
 );
 /* [wxMaxima: input   end   ] */
-
 
 /* [wxMaxima: input   start ] */
 B9: genmatrix(lambda([i,j], 0), 3, 18)$
@@ -496,16 +500,13 @@ for i:1 thru 9 do(
 );
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
 kill(H9,N9);
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
 K9:transpose(B9).C.B9$
 /* [wxMaxima: input   end   ] */
-
 
 /* [wxMaxima: input   start ] */
 for i:1 thru 18 do(
@@ -515,16 +516,17 @@ for i:1 thru 18 do(
 );
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
 Kn9:subst([E=1,nu=1/3],K9)$
 Mn9:subst([rho=1],M9)$
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: input   start ] */
 Mn9;
 /* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
 
 
 
